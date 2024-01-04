@@ -1,0 +1,32 @@
+Please Note: ==> Means Very Important, => Means You might use
+
+Docker Desktop => https://www.docker.com/products/docker-desktop/
+postgresql     => https://hub.docker.com/_/postgres
+odoo           => https://hub.docker.com/_/odoo
+===========================================================================================================================
+Very Important:
+
+==> To Run postgres DB with 15-alpine tag
+docker run -d -e POSTGRES_USER=odoo -e POSTGRES_PASSWORD=odoo -e POSTGRES_DB=postgres -p 5433:5432 --name db17 postgres:15-alpine
+
+
+==> To Run Odoo with 17 tag & make volume between 2 dirs
+docker run -v C:\Users\OSAMA\OneDrive\Desktop\video\:/var/lib/odoo/addons/17.0/ -p 8069:8069 --name odoo17 --link db17:db -t odoo:17
+
+
+==> Copy odoo.conf file to container
+docker cp C:\Users\OSAMA\OneDrive\Desktop\video\odoo.conf odoo17:/etc/odoo/odoo.conf
+
+===========================================================================================================================
+Might use:
+
+=> Copy passwd file to container
+docker cp C:\Users\OSAMA\OneDrive\Desktop\video\passwd odoo17:/etc/passwd
+docker exec odoo17 chmod -R 777 /var/lib/odoo/addons/17.0/
+
+=> To auto install module
+docker exec odoo17 odoo -c /etc/odoo/odoo.conf -d odoo -i it_courses
+
+=> To make a new module in docker container
+odoo scaffold module_name /var/lib/odoo/addons/17.0/
+
